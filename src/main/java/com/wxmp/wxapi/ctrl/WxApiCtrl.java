@@ -18,14 +18,18 @@
  */
 package com.wxmp.wxapi.ctrl;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.wxmp.core.common.BaseCtrl;
 import com.wxmp.core.exception.WxErrorException;
 import com.wxmp.core.util.AjaxResult;
 import com.wxmp.core.util.DateUtil;
+import com.wxmp.core.util.HttpClientSSLUtil;
 import com.wxmp.core.util.wx.SignUtil;
+import com.wxmp.wxapi.dto.UserDTO;
 import com.wxmp.wxapi.process.*;
 import com.wxmp.wxapi.service.MyService;
+import com.wxmp.wxapi.service.SubscribeUserService;
 import com.wxmp.wxapi.vo.*;
 import com.wxmp.wxcms.domain.AccountFans;
 import com.wxmp.wxcms.domain.MsgNews;
@@ -34,7 +38,9 @@ import com.wxmp.wxcms.service.MsgNewsService;
 import com.wxmp.wxcms.service.MsgTextService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -59,6 +65,8 @@ public class WxApiCtrl extends BaseCtrl {
 	private MsgTextService msgTextService;
 	@Resource
 	private MsgNewsService msgNewsService;
+	@Autowired
+	private SubscribeUserService subscribeUserService;
 	
 	/**
 	 * GET请求：进行URL、Tocken 认证；
@@ -73,7 +81,7 @@ public class WxApiCtrl extends BaseCtrl {
 		Set<String> keySet = request.getParameterMap().keySet();
 		Iterator<String> iterator = keySet.iterator();
         while(iterator.hasNext()){  
-            //如果存在，则调用next实现迭代  
+            //如果存在，则调用next实现迭代
             String key=iterator.next();
             log.info("key:{} , value :{}",key,request.getParameterMap().get(key));
         }
@@ -110,7 +118,54 @@ public class WxApiCtrl extends BaseCtrl {
 			return "error";
 		}
 	}
-	
+
+    /**
+     * 跳转绑定页面
+     * @param code
+     * @param model
+     * @return
+     */
+	@RequestMapping("/register")
+	public String register(String code, Model model){
+        String url = "https://api.weixin.qq.com/sns/oauth2/access_token";
+        Map<String,String> params = new HashMap<>();
+        params.put("appid","wx9d43b854c6f4261d");
+        params.put("secret","2e1af89b7d0271fc308d2a9582da44d7");
+        params.put("code",code);
+        params.put("grant_type","authorization_code");
+        String res = HttpClientSSLUtil.post(url, params, null);
+        Map map = JSON.parseObject(res, Map.class);
+
+        boolean flag = false;
+        UserDTO userDTO = subscribeUserService.findUserByOpenid(map.get("openid").toString());
+        if(userDTO.getPhone() != null && !userDTO.getPhone().equals("")){
+            flag = true;
+            model.addAttribute("userDTO",userDTO);
+        }
+
+        model.addAttribute("openid", map.get("openid"));
+        model.addAttribute("isExistence",flag);
+        model.addAttribute("phne",flag);
+        return "home";
+    }
+
+    @RequestMapping("/updateOrSavePhone")
+    @ResponseBody
+    public AjaxResult updateOrSavePhone(String phone,Integer code,String openid){
+	    log.info("用户绑定手机号or手机换更换,验证码:{} 手机号:{},openid{}",phone,code,openid);
+        boolean isExistence = subscribeUserService.findUserByFromUserName(openid);
+        if(!isExistence){
+            //TODO 不存在
+            return AjaxResult.failure("用户不存在");
+        }
+        boolean isSuccess = subscribeUserService.updateOrSavePhone(openid, phone);
+        if(!isSuccess){
+            //TODO 修改不成功
+            return AjaxResult.updateSuccess();
+        }
+        return AjaxResult.success();
+    }
+
 	//创建微信公众账号菜单
 	@RequestMapping(value = "/publishMenu")
 	public ModelAndView publishMenu() throws WxErrorException {

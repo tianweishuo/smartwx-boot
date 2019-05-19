@@ -59,19 +59,19 @@ public class WebMvcConfg implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //添加登陆拦截器
-        List<String> patterns = new ArrayList<>();
-        patterns.add("/message/**");
-        patterns.add("/front/**");
-        String[] allowUrls = {"/", "/user/logout", "/user/login", "/user/register", "/wxweb/sendmsg", "/wxapi/oauthOpenid", "/views/login.html", "/common/getverifycode"};
-        AuthInterceptor authInterceptor = new AuthInterceptor();
-        authInterceptor.setAllowUrls(allowUrls);
-        registry.addInterceptor(authInterceptor)
-                .addPathPatterns("/**")
-                .excludePathPatterns(patterns);
-        //添加oauth拦截器
-        WxOAuth2Interceptor wxOAuth2Interceptor = new WxOAuth2Interceptor();
-        wxOAuth2Interceptor.setIncludes(new String[]{"/wxweb/sendmsg.html", "/wxapi/oauthOpenid.html"});
-        registry.addInterceptor(wxOAuth2Interceptor).addPathPatterns("/**/*.html");
+//        List<String> patterns = new ArrayList<>();
+//        patterns.add("/message/**");
+//        patterns.add("/front/**");
+//        String[] allowUrls = {"/", "/user/logout", "/user/login", "/user/register", "/wxweb/sendmsg", "/wxapi/oauthOpenid", "/views/login.html", "/common/getverifycode","/passenger/index.html","/wxapi/register"};
+//        AuthInterceptor authInterceptor = new AuthInterceptor();
+//        authInterceptor.setAllowUrls(allowUrls);
+//        registry.addInterceptor(authInterceptor)
+//                .addPathPatterns("/**")
+//                .excludePathPatterns(patterns);
+//        //添加oauth拦截器
+//        WxOAuth2Interceptor wxOAuth2Interceptor = new WxOAuth2Interceptor();
+//        wxOAuth2Interceptor.setIncludes(new String[]{"/wxweb/sendmsg.html", "/wxapi/oauthOpenid.html"});
+//        registry.addInterceptor(wxOAuth2Interceptor).addPathPatterns("/**/*.html");
     }
 
     /**

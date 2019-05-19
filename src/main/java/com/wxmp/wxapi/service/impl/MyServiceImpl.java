@@ -93,24 +93,36 @@ public class MyServiceImpl implements MyService {
             MsgEvent msgEvent = new MsgEvent();
             //事件
             if(MsgType.SUBSCRIBE.name.equals(msgRequest.getEvent())){
-                //订阅事件
                 log.info("订阅事件FromUserName:{}",msgRequest.getFromUserName());
-                if(subscribeUser != null){
-                    subscribeUserDao.deleteByFromUserName(msgRequest.getFromUserName());
-                }
                 SubscribeUser user = new SubscribeUser();
-                user.setId(new Sid().nextShort());
-                user.setToUserName(msgRequest.getToUserName());
-                user.setFromUserName(msgRequest.getFromUserName());
-                user.setPhone(null);
-                user.setStatus(SubscribeUser.FOLLOW);
-                user.setCreateTime(new Date());
-                subscribeUserDao.insert(user);
+                //订阅事件
+                if(subscribeUser != null){
+                    //判断手机号是否存在
+                    if(subscribeUser.getPhone() == null){
+                        log.info("【非首次订阅】:检测到手机号为空,需要用户注册填写手机号!");
+                        MsgText text = msgBaseDao.getMsgTextByInputCode(MsgType.Location.toString());
+                        MsgResponseText msgResponseText = WxMessageBuilder.getMsgResponseText(msgRequest, text);
+                        respXml = MsgXmlUtil.textToXml(msgResponseText);
+                    }
+                    subscribeUserDao.updateState(msgRequest.getFromUserName(),SubscribeUser.FOLLOW);
+                }else {
+                    log.info("【首次订阅】:检测到手机号为空,需要用户注册填写手机号!");
+                    user.setId(new Sid().nextShort());
+                    user.setToUserName(msgRequest.getToUserName());
+                    user.setFromUserName(msgRequest.getFromUserName());
+                    user.setPhone(null);
+                    user.setState(SubscribeUser.FOLLOW);
+                    user.setCreateTime(new Date());
+                    subscribeUserDao.insert(user);
+                    MsgText text = msgBaseDao.getMsgTextByInputCode(MsgType.Location.toString());
+                    MsgResponseText msgResponseText = WxMessageBuilder.getMsgResponseText(msgRequest, text);
+                    respXml = MsgXmlUtil.textToXml(msgResponseText);
+                }
             }else if(MsgType.UNSUBSCRIBE.name.equals(msgRequest.getEvent())){
                 //取消订阅
                 log.info("【消息处理】取消订阅FromUserName:{}",msgRequest.getFromUserName());
                 if(subscribeUser != null){
-                    subscribeUser.setStatus(SubscribeUser.CANCEL);
+                    subscribeUser.setState(SubscribeUser.CANCEL);
                     subscribeUser.setUnfollowTime(new Date());
                     subscribeUserDao.update(subscribeUser);
                 }
@@ -127,14 +139,6 @@ public class MyServiceImpl implements MyService {
                 }
             }
         }
-
-        // 如果没有对应的消息，默认返回订阅消息；
-        /*if (StringUtils.isEmpty(respXml)) {
-            MsgText text = msgBaseDao.getMsgTextByInputCode(MsgType.SUBSCRIBE.toString());
-            if (text != null) {
-                respXml = MsgXmlUtil.textToXml(WxMessageBuilder.getMsgResponseText(msgRequest, text));
-            }
-        }*/
         return respXml;
     }
 

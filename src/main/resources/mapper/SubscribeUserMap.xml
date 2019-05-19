@@ -7,21 +7,20 @@
         <result property="toUserName" column="to_user_name"/>
         <result property="fromUserName" column="from_user_name"/>
         <result property="phone" column="phone"/>
-        <result property="status" column="status"/>
-        <result property="deleteTime" column="delete_time"/>
+        <result property="state" column="state"/>
+        <result property="unfollowTime" column="unfollow_time"/>
         <result property="createTime" column="create_time"/>
     </resultMap>
 
 
     <sql id="Base_Column_List">
-        id,to_user_name,from_user_name,phone,status,deleat_time,create_time
-
+        id,to_user_name,from_user_name,phone,state,unfollow_time,create_time
     </sql>
 
     <!--列表插入-->
     <insert id="insert" useGeneratedKeys="true" parameterType="com.wxmp.wxcms.domain.SubscribeUser">
-        insert into wxcms_subscribe_user(id,to_user_name,from_user_name,phone,status,unfollow_time,create_time)
-        value(#{id},#{toUserName},#{fromUserName},#{phone},#{status},#{unfollowTime},#{createTime})
+        insert into wxcms_subscribe_user(id,to_user_name,from_user_name,phone,state,unfollow_time,create_time)
+        value(#{id},#{toUserName},#{fromUserName},#{phone},#{state},#{unfollowTime},#{createTime})
     </insert>
 
     <update id="update" parameterType="com.wxmp.wxcms.domain.SubscribeUser">
@@ -30,8 +29,8 @@
             <if test="phone != null and phone != ''">
                 phone = #{phone},
             </if>
-            <if test="status != null">
-                status = #{status},
+            <if test="state != null">
+                state = #{state},
             </if>
             <if test="unfollowTime != null">
                 unfollow_time = #{unfollowTime},
@@ -43,8 +42,11 @@
     </update>
 
 
-    <select id="findByFromUserName" resultMap="BaseResultMap">
-        select * from wxcms_subscribe_user where from_user_name = #{fromUserName}
+    <select id="findByFromUserName" resultMap="BaseResultMap" >
+        select
+        <include refid="Base_Column_List"/>
+        from
+        wxcms_subscribe_user where from_user_name = #{fromUserName}
     </select>
 
 
@@ -52,5 +54,13 @@
         delete from wxcms_subscribe_user where from_user_name = #{fromUserName}
     </delete>
 
+    <update id="updateState">
+        update wxcms_subscribe_user set state = #{state} where from_user_name = #{fromUserName}
+    </update>
+
+
+    <update id="updatePhoneByFormUserName">
+        update wxcms_subscribe_user set phone = #{phone} where from_user_name = #{fromUserName}
+    </update>
 
 </mapper>

@@ -14,9 +14,14 @@ import java.util.Date;
 @Data
 public class SubscribeUser {
 
-    //关注
+    /**
+     * 关注
+     */
     public static Integer FOLLOW = 1;
-    //取消
+
+    /**
+     * 取消
+     */
     public static Integer CANCEL = 2;
 
 
@@ -33,7 +38,7 @@ public class SubscribeUser {
     private String phone;
 
     //1:关注,2:取关
-    private Integer status;
+    private Integer state;
 
     //上次取消关注时间
     private Date unfollowTime;

@@ -56,8 +56,7 @@ public class WxMessageBuilder {
 			reponseText.setFromUserName(msgRequest.getToUserName());
 			reponseText.setMsgType(MsgType.Text.toString());
 			reponseText.setCreateTime(new Date().getTime());
-			reponseText.setContent("<![CDATA[<a href='www.baidu.com'>绑定手机号</a>]]>");
-			//reponseText.setContent(msgText.getContent());
+			reponseText.setContent(msgText.getContent());
 			return reponseText;
 		}else{
 			return null;
