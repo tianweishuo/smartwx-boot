@@ -1,4 +1,3 @@
 INSERT INTO `wxmp`.`wxcms_msg_base`(`id`, `msg_type`, `input_code`, `rule`, `enable`, `read_count`, `favour_count`, `create_time`) VALUES (1, 'text', 'location', NULL, NULL, NULL, NULL, '2019-05-18 16:51:56');
 INSERT INTO `wxmp`.`wxcms_msg_text`(`id`, `title`, `content`, `base_id`, `account`, `create_time`) VALUES (1, '手机号', '<a href=\'https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx9d43b854c6f4261d&redirect_uri=http%3a%2f%2f4nanat.natappfree.cc%2fwxapi%2fregister&response_type=code&scope=snsapi_userinfo&state=STATE#wechat_redirect\'>首次打车需要绑定手机号,点击此处绑定!</a>', 1, 'gh_fc95585b21ec', NULL);
 INSERT INTO `wxmp`.`wxcms_subscribe_user`(`id`, `to_user_name`, `from_user_name`, `phone`, `state`, `unfollow_time`, `create_time`) VALUES ('190518C4Y2TTDW6W', 'gh_fc95585b21ec', 'okRRi5ugA8kbdFp4HzCfbk7I_F6A', '15010050865', 1, '2019-05-19 15:42:02', '2019-05-18 17:03:38');
-QQ
