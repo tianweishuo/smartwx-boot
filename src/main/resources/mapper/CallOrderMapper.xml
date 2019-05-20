@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--  the code template created by wxmp-generator @author hermit @version 2.0 @date 2018-04-17 10:43:21 -->
+<mapper namespace="com.wxmp.wxcms.mapper.CallOrderDao">
+    <resultMap id="BaseResultMap" type="com.wxmp.wxcms.domain.CallOrder">
+        <id property="orderId" column="order_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="orderStatus" column="order_status"/>
+        <result property="payStatus" column="pay_status"/>
+        <result property="startLabel" column="start_label"/>
+        <result property="startLocationX" column="stat_location_x"/>
+        <result property="startLocationY" column="start_location_y"/>
+        <result property="endLabel" column="end_label"/>
+        <result property="endLocationX" column="end_location_x"/>
+        <result property="endLocationY" column="end_location_y"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+    order_id,user_id,order_status,pay_status,start_label,stat_location_x,start_location_y,end_label,end_location_x,end_location_y,create_time
+    </sql>
+
+
+</mapper>

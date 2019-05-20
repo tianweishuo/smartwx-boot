@@ -23,3 +23,32 @@ create table wxcms_msg_event(
   event varchar(10) not null comment '事件类型，subscribe(订阅)、unsubscribe(取消订阅)',
   create_time datetime comment '创建时间'
 )ENGINE=InnoDB DEFAULT CHARSET=utf8 comment '微信消息列表';
+
+
+/*呼叫订单*/
+create table call_order(
+    order_id varchar(64) primary key comment '订单id',
+    user_id varchar (50) not null comment '用户id',
+    order_status int default 0 comment '订单状态 0-呼叫中,1-司机已接单,2-用户取消订单,3-司机取消订单,4-行程已结束',
+    pay_status int default 0 comment '0-呼叫中或已取消,1-等待支付,2-已支付',
+    start_label varchar(50) not null comment '开始地理位置信息',
+    stat_location_x varchar(50) not null comment '开始地理位置维度',
+    start_location_y varchar (50) not null comment '开始地理位置维度',
+    end_label varchar(50) default null comment '结束地理位置信息',
+    end_location_x varchar(50) default null comment '结束地理位置维度',
+    end_location_y varchar (50) default null comment '结束地理位置维度',
+    create_time timestamp not null comment '创建时间'
+)
+
+
+
+
+
+
+
+
+
+
+
+
+

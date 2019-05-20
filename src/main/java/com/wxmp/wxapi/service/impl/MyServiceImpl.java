@@ -132,10 +132,15 @@ public class MyServiceImpl implements MyService {
             if(subscribeUser != null){
                 String phone = subscribeUser.getPhone();
                 if(phone == null){
-                    log.info("手机号为绑定");
+                    log.info("手机号未绑定");
                     MsgText text = msgBaseDao.getMsgTextByInputCode(MsgType.Location.toString());
                     MsgResponseText msgResponseText = WxMessageBuilder.getMsgResponseText(msgRequest, text);
                     respXml = MsgXmlUtil.textToXml(msgResponseText);
+                }else{
+                    log.info("呼叫司机");
+                    //TODO 判断用户是否有未结算的订单
+                    //TODO 判断用户使用以及发
+                    //TODO 呼叫
                 }
             }
         }
