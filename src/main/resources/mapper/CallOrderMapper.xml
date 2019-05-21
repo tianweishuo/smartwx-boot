@@ -5,10 +5,11 @@
     <resultMap id="BaseResultMap" type="com.wxmp.wxcms.domain.CallOrder">
         <id property="orderId" column="order_id"/>
         <result property="userId" column="user_id"/>
+        <result property="driverId" column="driver_id"/>
         <result property="orderStatus" column="order_status"/>
         <result property="payStatus" column="pay_status"/>
         <result property="startLabel" column="start_label"/>
-        <result property="startLocationX" column="stat_location_x"/>
+        <result property="startLocationX" column="start_location_x"/>
         <result property="startLocationY" column="start_location_y"/>
         <result property="endLabel" column="end_label"/>
         <result property="endLocationX" column="end_location_x"/>
@@ -17,8 +18,45 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-    order_id,user_id,order_status,pay_status,start_label,stat_location_x,start_location_y,end_label,end_location_x,end_location_y,create_time
+    order_id,user_id,driver_id,order_status,pay_status,start_label,start_location_x,start_location_y,end_label,end_location_x,end_location_y,create_time
     </sql>
+
+
+    <insert id="insert" parameterType="com.wxmp.wxcms.domain.CallOrder">
+        insert into call_order(
+            order_id,
+            user_id,
+            driver_id,
+            order_status,
+            pay_status,
+            start_label,
+            start_location_x,
+            start_location_y,
+            end_label,
+            end_location_x,
+            end_location_y,
+            create_time)
+        values(
+            #{orderId},
+            #{userId},
+            #{driverId},
+            #{orderStatus},
+            #{payStatus},
+            #{startLabel},
+            #{startLocationX},
+            #{startLocationY},
+            #{endLabel},
+            #{endLocationX},
+            #{endLocationY},
+            #{createTime})
+    </insert>
+
+
+    <select id="findOrderByOrderStatus" resultMap="BaseResultMap">
+        select <include refid="Base_Column_List"/>
+        from call_order where user_id = #{userId}
+        and order_status = 0 or order_status = 3 or order_status = 4 or pay_status = 1
+    </select>
 
 
 </mapper>

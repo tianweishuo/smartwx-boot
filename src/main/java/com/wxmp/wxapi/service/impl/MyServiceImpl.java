@@ -26,6 +26,8 @@ import com.wxmp.core.util.wx.WxUtil;
 import com.wxmp.idworker.Id;
 import com.wxmp.idworker.Sid;
 import com.wxmp.idworker.utils.Utils;
+import com.wxmp.wxapi.enums.order.OrderStatusEnum;
+import com.wxmp.wxapi.enums.order.PayStatusEnum;
 import com.wxmp.wxapi.process.*;
 import com.wxmp.wxapi.service.MyService;
 import com.wxmp.wxapi.vo.Matchrule;
@@ -38,6 +40,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.expression.Ids;
 
 import javax.annotation.Resource;
 import java.util.*;
@@ -74,6 +77,9 @@ public class MyServiceImpl implements MyService {
 
     @Resource
     private MsgEventDao msgEventDao;
+
+    @Resource
+    private CallOrderDao callOrderDao;
 
 
     /**
@@ -138,9 +144,58 @@ public class MyServiceImpl implements MyService {
                     respXml = MsgXmlUtil.textToXml(msgResponseText);
                 }else{
                     log.info("呼叫司机");
-                    //TODO 判断用户是否有未结算的订单
-                    //TODO 判断用户使用以及发
-                    //TODO 呼叫
+                    //TODO 判断用户是否有存在等待中,行驶中或未结算的订单
+                    List<CallOrder> callOrders = callOrderDao.findOrderByOrderStatus(subscribeUser.getId());
+                    if(callOrders.size() > 0){
+                        CallOrder order = callOrders.get(0);
+                        if(order.getOrderStatus().equals(OrderStatusEnum.INCALL.getCode())){
+                            //存在呼叫中订单
+                            MsgText text = new MsgText();
+                            text.setContent("订单正则呼叫中");
+                            MsgResponseText msgResponseText = WxMessageBuilder.getMsgResponseText(msgRequest, text);
+                            respXml = MsgXmlUtil.textToXml(msgResponseText);
+                        }else if(order.getOrderStatus().equals(OrderStatusEnum.RECEIVED.getCode())){
+                            //司机已接单
+                            MsgText text = new MsgText();
+                            text.setContent("司机已接单,如果取消行程请点击!");
+                            MsgResponseText msgResponseText = WxMessageBuilder.getMsgResponseText(msgRequest, text);
+                            respXml = MsgXmlUtil.textToXml(msgResponseText);
+                        }else if(order.getOrderStatus().equals(OrderStatusEnum.INDRIVING.getCode())){
+                            //行驶中
+                            MsgText text = new MsgText();
+                            text.setContent("当前正常行驶中,需先结算订单");
+                            MsgResponseText msgResponseText = WxMessageBuilder.getMsgResponseText(msgRequest, text);
+                            respXml = MsgXmlUtil.textToXml(msgResponseText);
+                        }else{
+                            //判断订单是否已经支付
+                            if(order.getPayStatus().equals(PayStatusEnum.UNSENT.getCode())){
+                                //未发起结算未支付
+                                MsgText text = new MsgText();
+                                text.setContent("请司机发起结算订单");
+                                MsgResponseText msgResponseText = WxMessageBuilder.getMsgResponseText(msgRequest, text);
+                                respXml = MsgXmlUtil.textToXml(msgResponseText);
+                            }else if(order.getPayStatus().equals(PayStatusEnum.WAIT.getCode())){
+                                //已发起结算等待支付
+                                MsgText text = new MsgText();
+                                text.setContent("存在未支付订单,请进行结算");
+                                MsgResponseText msgResponseText = WxMessageBuilder.getMsgResponseText(msgRequest, text);
+                                respXml = MsgXmlUtil.textToXml(msgResponseText);
+                            }
+                        }
+                    }else{
+                        //TODO 创建轿车订单
+                        CallOrder callOrder = new CallOrder(new Sid().next(),
+                                subscribeUser.getId(),
+                                null,
+                                OrderStatusEnum.INCALL.getCode(),
+                                PayStatusEnum.UNSENT.getCode(),
+                                msgRequest.getLabel(),
+                                msgRequest.getLocation_X(),
+                                msgRequest.getLocation_Y(),
+                                null, null, null, new Date());
+                        callOrderDao.insert(callOrder);
+                    }
+
                 }
             }
         }

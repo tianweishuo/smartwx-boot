@@ -6,10 +6,11 @@ import lombok.Getter;
 public enum  OrderStatusEnum {
 
     INCALL(0,"呼叫中"),
-    RECEIVED(1,"司机已接单"),
-    USERCAHCEL(2,"已取消"),
-    DRIVERCAHCEL(3,"司机取消订单"),
-    ENDSOFSTROKE(4,"行程已结束");
+    USERCAHCEL(1,"乘客取消订单"),
+    DRIVERCAHCEL(2,"司机取消订单"),
+    RECEIVED(3,"司机已接单"),
+    INDRIVING(4,"行驶中"),
+    ENDSOFSTROKE(5,"行程已结束");
 
     private Integer code;
 

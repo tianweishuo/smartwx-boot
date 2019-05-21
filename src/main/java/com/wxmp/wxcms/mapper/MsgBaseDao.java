@@ -33,24 +33,24 @@ import java.util.List;
 
 public interface MsgBaseDao {
 
-	public MsgBase getById(String id);
+	MsgBase getById(String id);
 
-	public List<MsgBase> listForPage(MsgBase searchEntity);
+	List<MsgBase> listForPage(MsgBase searchEntity);
 
-	public List<MsgNews> listMsgNewsByBaseId(String[] ids);
+	List<MsgNews> listMsgNewsByBaseId(String[] ids);
 	
-	public MsgText getMsgTextByBaseId(String id);
+	MsgText getMsgTextByBaseId(String id);
 	
-	public MsgText getMsgTextBySubscribe();
+	MsgText getMsgTextBySubscribe();
 	
-	public MsgText getMsgTextByInputCode(String inputcode);
-	
-	public Integer add(MsgBase entity);
+	MsgText getMsgTextByInputCode(String inputcode);
 
-	public void update(MsgBase entity);
-	
-	public void updateInputcode(MsgBase entity);
+	Integer add(MsgBase entity);
 
-	public void delete(MsgBase entity);
+	void update(MsgBase entity);
+	
+	void updateInputcode(MsgBase entity);
+
+	void delete(MsgBase entity);
 
 }

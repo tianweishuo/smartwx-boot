@@ -1,0 +1,157 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<link href="css/home.css" rel="stylesheet" />
+	</head>
+
+	<body>
+
+		<div class="head">
+			<ul>
+				<li>
+					<span>0</span>
+					<span>今日流水</span>
+				</li>
+				<li>
+					<span>0</span>
+					<span>今日接单</span>
+				</li>
+				<li>
+					<span>0</span>
+					<span>在线时长</span>
+				</li>
+			</ul>
+		</div>
+
+		<div>
+			抢单大厅
+		</div>
+		<dir class="bottom" id="stopit">
+			<button type="button" class="btn-mode" onclick="mode()">模式</button>
+			<button type="button" id="ordertaking" class="btn-ordertaking" onclick="ordertaking()">点击接单</button>
+		</dir>
+
+		<dir class="receipt mui-hidden" id="receipt">
+			<button type="button" class="btn-mode" onclick="mode()">模式</button>
+			<span>听单中</span>
+			<button type="button" id="rest" class="btn-rest" onclick="rest()">休息</button>
+		</dir>
+
+		<script src="js/mui.min.js"></script>
+		<script src="js/app.js"></script>
+		<script type="text/javascript">
+			mui.init();
+
+			var timer;
+
+			mui.plusReady(function() {
+				
+			});
+
+			//点击接单
+			function ordertaking() {
+				plus.geolocation.getCurrentPosition(
+					function(position) {
+						var stopit = document.getElementById("stopit");
+						var receipt = document.getElementById("receipt");
+						stopit.classList.add("mui-hidden");
+						receipt.classList.remove("mui-hidden");
+						//开启位置监听
+						timer = window.setInterval("locationMonitoring()", 1000);
+						//发送websocket连接
+						ONLINE.init();
+					},
+					function(error) {
+						plus.nativeUI.alert("定位为开启", function() {
+							console.log("User pressed!");
+						}, "提示", "确认")
+					});
+
+			};
+			
+			
+			window.ONLINE = {
+				socket:null,
+				init:function(){
+					//判断是否支持websocket
+					if(window.WebSocket){
+						console.log("支持websocket");
+						// 如果当前的状态已经连接，那就不需要重复初始化websocket
+						if (ONLINE.socket != null && ONLINE.socket != undefined) {
+							return false;
+						}
+						ONLINE.socket =  new WebSocket(app.nettyServerUrl);
+						ONLINE.socket.onopen = ONLINE.wsopen;
+						ONLINE.socket.onclose = ONLINE.wsclose,
+						ONLINE.socket.onerror = ONLINE.wserror,
+						ONLINE.socket.onmessage = ONLINE.wsmessage;
+					}else{
+						alert("手机设备过旧，请升级手机设备...");
+					}
+				},
+				wsopen:function(){
+					//连接方法
+					console.log("websocket连接已建立...");
+				},
+				wsclose:function(){
+					//关闭方法
+					console.log("连接关闭...");
+				},
+				wserror:function(){
+					//异常方法
+					console.log("发生错误...");
+				},
+				wsmessage:function(){
+					//消息接受
+					console.log("接受到消息：" + e.data);
+				}
+			}
+			
+			
+
+			//休息
+			function rest() {
+				var stopit = document.getElementById("stopit");
+				var receipt = document.getElementById("receipt");
+				stopit.classList.remove("mui-hidden");
+				receipt.classList.add("mui-hidden");
+				clearwatch();
+			};
+
+			function mode() {
+				alert("模式切换功能升级中...");
+			};
+
+			//开启定位监听
+			function locationMonitoring() {
+				plus.geolocation.getCurrentPosition(
+					function(position) {
+						console.log("获取定位信息" + JSON.stringify(position));
+					},
+					function(error) {
+						console.log("获取定位信息" + JSON.stringify(error));
+						clearwatch();
+						rest();
+						plus.nativeUI.alert("定位为开启", function() {
+							console.log("User pressed!");
+						}, "提示", "确认")
+					}, {
+						provider: 'system',
+						enableHighAccuracy: true
+					});
+			};
+
+			//关闭监听设备位置信息
+			function clearwatch() {
+				clearInterval(timer); //关闭循环
+			};
+		</script>
+	</body>
+
+</html>
