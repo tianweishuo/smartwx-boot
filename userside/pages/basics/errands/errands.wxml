@@ -1,0 +1,28 @@
+<cu-custom bgColor="cu-bar cu-bar fixed fixed bg-gradual-blue bg-gradual-blue" isBack="{{true}}">
+	<view slot="backText">返回</view>
+	<view slot="content">跑腿</view>
+</cu-custom>
+
+<view class="container">
+
+  <map id="map" 
+    longitude="113.324520"
+    latitude="23.099994"
+    scale="14"
+    controls="{{controls}}"
+    bindcontroltap="controltap"
+    markers="{{markers}}"
+    bindmarkertap="markertap"
+    polyline="{{polyline}}"
+    bindregionchange="regionchange"
+    show-location style="width: 100%; height: 800rpx;">
+  </map>
+  
+  <view class="bg-yellow padding radius text-center shadow-blur callinfo-avatar" >
+    <text class="text-lg">一键出行</text>
+  </view>
+
+
+  
+
+</view>

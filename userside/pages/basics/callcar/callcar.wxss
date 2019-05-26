@@ -1,0 +1,13 @@
+.callinfo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.callinfo-avatar {
+  margin-top: 70rpx;
+}
+
+.callinfo-nickname {
+  color: #aaa;
+}
