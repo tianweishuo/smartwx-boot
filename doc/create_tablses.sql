@@ -39,16 +39,3 @@ create table call_order(
     end_location_y varchar (50) default null comment '结束地理位置维度',
     create_time timestamp not null comment '创建时间'
 )
-
-
-
-
-
-
-
-
-
-
-
-
-
