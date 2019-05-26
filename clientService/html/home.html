@@ -1,0 +1,174 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link href="../css/home.css" rel="stylesheet" />
+		<style>
+			.flex {
+				display: flex;
+				flex-wrap: wrap;
+				margin-top: 10px;
+			}
+			
+			.flex>div {
+				width: calc(100%/3);
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="homepage" class="mui-content">
+			<div id="map" style="height: 350px;">地图加载中...</div>
+
+			<ul class="mui-table-view" style="margin-top: 20px;">
+				<li class="mui-table-view-cell">平台公告
+					<span class="mui-badge mui-badge-primary">11</span>
+				</li>
+			</ul>
+			<div class="flex">
+				<div style="text-align: center;">
+					<div style="border-width:1px;height: 50px;display: flex;justify-content: center;align-items: center;">
+						<span>今日接单</span>
+					</div>
+					<div style="border-width:1px;height: 50px;display: flex;justify-content: center;align-items: center;">
+						<span>0</span>
+					</div>
+				</div>
+				<div style="text-align: center;">
+					<div style="border-width:1px;height: 50px;display: flex;justify-content: center;align-items: center;">
+						<span>今日流水</span>
+					</div>
+					<div style="border-width:1px;height: 50px;display: flex;justify-content: center;align-items: center;">
+						<span>0</span>
+					</div>
+				</div>
+				<div style="text-align: center;">
+					<div style="border-width:1px;height: 50px;display: flex;justify-content: center;align-items: center;">
+						<span>在线时长</span>
+					</div>
+					<div style="border-width:1px;height: 50px;display: flex;justify-content: center;align-items: center;">
+						<span>0</span>
+					</div>
+				</div>
+			</div>
+			<dir class="bottom" id="stopit">
+				<button type="button" id="ordertaking" class="btn-ordertaking" @tap="ordertaking()">点击接单</button>
+			</dir>
+
+			<dir class="receipt mui-hidden" id="receipt">
+				<span>听单中</span>
+				<button type="button" id="rest" class="btn-rest" @tap="rest()">休息</button>
+			</dir>
+		</div>
+
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/vue.min.js"></script>
+		<script src="../js/app.js"></script>
+		<script type="text/javascript">
+			//Vue数据
+			var data_home = new Vue({
+				el: '#homepage',
+				data: {
+					movies: [],
+					position: [],
+					point: {
+						center: [],
+						zoom: 19,
+						top: '100px',
+						left: '0px',
+						width: '100%',
+						height: '200px',
+						traffic: true,
+						position: 'static'
+					}
+				},
+				mounted() {
+					mui.plusReady(function() {
+						mui.init({
+							swipeBack: true //启用右滑关闭功能
+						});
+						plus.geolocation.getCurrentPosition(function(position) {
+							console.log("获取手机定位" + JSON.stringify(position));
+							data_home.point.center = new plus.maps.Point(position.coords.longitude, position.coords.latitude);
+							map = new plus.maps.Map("map", data_home.point);
+
+							var marker = new plus.maps.Marker(data_home.point.center);
+							marker.setIcon("../images/i.png");
+							marker.setLabel("当前位置");
+							var bubble = new plus.maps.Bubble();
+							marker.setBubble(bubble);
+							map.addOverlay(marker);
+						}, function(error) {
+							var code = error.code; // 错误编码
+							var message = error.message; // 错误描述信息
+						}, {
+							enableHighAccuracy: true,
+							provider: 'amap'
+						});
+					})
+				},
+				methods: {
+					ordertaking: function() {
+						plus.geolocation.getCurrentPosition(
+							function(position) {
+								var stopit = document.getElementById("stopit");
+								var receipt = document.getElementById("receipt");
+								stopit.classList.add("mui-hidden");
+								receipt.classList.remove("mui-hidden");
+								plus.storage.setItem("monitor", "true");
+								//开启位置监听
+								timer = window.setInterval("locationMonitoring()", 1000);
+								//发送websocket连接
+								ONLINE.init();
+							},
+							function(error) {
+								plus.nativeUI.alert("定位未开启", function() {
+									console.log("User pressed!");
+								}, "提示", "确认")
+							});
+					}
+				}
+			});
+			var timer;
+
+			//休息
+			function rest() {
+				var stopit = document.getElementById("stopit");
+				var receipt = document.getElementById("receipt");
+				stopit.classList.remove("mui-hidden");
+				receipt.classList.add("mui-hidden");
+				plus.storage.setItem("monitor", "false");
+				clearwatch();
+			};
+
+			//关闭监听设备位置信息
+			function clearwatch() {
+				clearInterval(timer); //关闭循环
+			};
+
+			//开启定位监听
+			function locationMonitoring() {
+				plus.geolocation.getCurrentPosition(
+					function(position) {
+						console.log("获取定位信息" + JSON.stringify(position));
+					},
+					function(error) {
+						console.log("获取定位信息" + JSON.stringify(error));
+						clearwatch();
+						rest();
+						plus.nativeUI.alert("定位为开启", function() {
+							console.log("User pressed!");
+						}, "提示", "确认")
+					}, {
+						provider: 'system',
+						enableHighAccuracy: true
+					});
+			};
+		</script>
+	</body>
+
+</html>

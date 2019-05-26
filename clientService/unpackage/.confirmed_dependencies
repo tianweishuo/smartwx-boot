@@ -1,0 +1,48 @@
+{
+  "html/setting.html": {
+    "href": "html/setting.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "html/index.html": {
+    "href": "html/index.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "html/order.html": {
+    "href": "html/order.html",
+    "resources": [
+      "css/mui.min.css",
+      "js/mui.min.js"
+    ],
+    "refer": [],
+    "priority": 0
+  },
+  "index.html": {
+    "href": "index.html",
+    "resources": [
+      "js/mui.min.js",
+      "css/mui.min.css",
+      "fontico/iconfont.css",
+      "css/header.css",
+      "html/home.html",
+      "html/index.html"
+    ],
+    "refer": [
+      "html/setting.html",
+      "html/index.html",
+      "html/order.html",
+      "index.html",
+      "html/home.html"
+    ],
+    "priority": 0
+  }
+}
