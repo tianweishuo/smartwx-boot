@@ -12,46 +12,53 @@ App({
       }
     })
 
-
-    //校验登陆是否失效
-    wx.checkSession({
-      success() {
-        console.log("登陆有效");
-      },
-      fail() {
-        console.log("登陆失效,进行登陆");
-        wx.login({
-          success(res) {
-            wx.request({
-              url: utils.serviceUrl + '/wxck/login', // 仅为示例，并非真实的接口地址
-              header: {
-                'content-type': 'application/json' // 默认值
-              },
-              data: {
-                code: res.code
-              },
-              method: 'post',
-              success(res) {
-                console.log("用户登陆返回信息" + res.data)
-              }
-            })
-
-          }
-        })
-      }
-    })
-
-
+    //判断是否可以获取用户信息
     wx.getSetting({
       success(res) {
-        console.log(res);
+        console.log(res)
+        //获取用户信息
+        if (!res.authSetting['scope.userInfo']){
+          console.log("需要获取用户信息");
+          wx.navigateTo({
+            url: "/pages/auth/auth"
+          });
+        }
       }
     })
 
-    // wx.getUserInfo({
+
+    //校验登陆是否失效
+    // wx.checkSession({
+    //   success() {
+    //     console.log("登陆有效");
+    //   },
+    //   fail() {
+    //     console.log("登陆失效,进行登陆");
+    //     wx.login({
+    //       success(res) {
+    //         wx.request({
+    //           url: utils.serviceUrl + '/wxck/login', // 仅为示例，并非真实的接口地址
+    //           header: {
+    //             'content-type': 'application/json' // 默认值
+    //           },
+    //           data: {
+    //             code: res.code
+    //           },
+    //           method: 'post',
+    //           success(res) {
+    //             console.log("用户登陆返回信息" + res.data)
+    //           }
+    //         })
+
+    //       }
+    //     })
+    //   }
+    // })
+
+
+    // wx.getSetting({
     //   success(res) {
-    //     console.log("获取用户信息");
-    //     console.log(JSON.stringify(res))
+    //     console.log(res);
     //   }
     // })
 

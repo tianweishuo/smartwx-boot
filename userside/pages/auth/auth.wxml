@@ -1,10 +1,5 @@
 <view class='UCenter-bg'>
-  <image src='/images/logo.png' class='png' mode='widthFix'></image>
-  <view class='text-xl'>平台名称
-    <text class='text-df'>v2.0</text>
-  </view>
-  <view class='margin-top-sm'>
-    <!-- <text>By:文晓港</text> -->
+  <view class='text-xl'>欢迎使用系统
   </view>
 </view>
 <view class='padding-xl'>
