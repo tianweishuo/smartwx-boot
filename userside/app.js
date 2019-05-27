@@ -12,20 +12,6 @@ App({
       }
     })
 
-    //判断是否可以获取用户信息
-    wx.getSetting({
-      success(res) {
-        console.log(res)
-        //获取用户信息
-        if (!res.authSetting['scope.userInfo']){
-          console.log("需要获取用户信息");
-          wx.navigateTo({
-            url: "/pages/auth/auth"
-          });
-        }
-      }
-    })
-
 
     //校验登陆是否失效
     // wx.checkSession({
@@ -64,10 +50,17 @@ App({
 
   },
   onShow:function(){
-    wx.openSetting({
-      success(res) {
-        console.log("----");
-        console.log(res)
+    // 获取用户信息
+    wx.getSetting({
+      success: res => {
+        if (res.authSetting['scope.userInfo']) {
+          //已授信
+        } else {
+          // 未授权，跳转到授权页面
+          wx.reLaunch({
+            url: '/pages/auth/auth',
+          })
+        }
       }
     })
   },

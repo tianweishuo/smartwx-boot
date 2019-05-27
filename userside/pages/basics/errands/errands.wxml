@@ -1,6 +1,6 @@
 <cu-custom bgColor="cu-bar cu-bar fixed fixed bg-gradual-blue bg-gradual-blue" isBack="{{true}}">
 	<view slot="backText">返回</view>
-	<view slot="content">跑腿</view>
+	<view slot="content">跑腿服务</view>
 </cu-custom>
 
 <view class="container">

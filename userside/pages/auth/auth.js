@@ -1,16 +1,17 @@
-const app = getApp();
+var app = getApp();
 Page({
   data: {
-    StatusBar: app.globalData.StatusBar,
-    CustomBar: app.globalData.CustomBar,
-    ColorList: app.globalData.ColorList,
+    canIUse: wx.canIUse('button.open-type.getUserInfo')
   },
-  onGetUserInfo: function (e) {
-    if (!this.logged && e.detail.userInfo) {
-      app.globalData.userInfo = e.detail.userInfo;
-      wx.switchTab({
-        url: '/pages/basics/home/home',
-      })
-    }
+  onAuth() {
+    wx.getSetting({
+      success: (res) => {
+        if (res.authSetting['scope.userInfo']) {
+          wx.reLaunch({
+            url: '/pages/index/index',
+          })
+        }
+      }
+    })
   }
-});
+})

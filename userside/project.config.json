@@ -57,7 +57,7 @@
 				{
 					"id": -1,
 					"name": "4.6 打车",
-					"pathName": "pages/basics/CallCar/CallCar",
+					"pathName": "pages/basics/callcar/callcar",
 					"query": ""
 				}
 			]
