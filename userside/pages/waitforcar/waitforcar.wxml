@@ -1,0 +1,12 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{flast}}">
+  <view slot="backText">返回</view>
+  <view slot="content">订单安排中</view>
+</cu-custom>
+
+
+<view class="loading-warp">
+  <canvas class="canvas" canvas-id="canvasCircle"></canvas>
+  <canvas class="canvas-mask" canvas-id="canvasRing"></canvas>
+  <view class="rate">{{step}}%</view>
+</view>
+<view class="loading-tips">{{tips}}</view>
