@@ -11,58 +11,8 @@ App({
         this.globalData.CustomBar = custom.bottom + custom.top - e.statusBarHeight;
       }
     })
-
-
-    //校验登陆是否失效
-    // wx.checkSession({
-    //   success() {
-    //     console.log("登陆有效");
-    //   },
-    //   fail() {
-    //     console.log("登陆失效,进行登陆");
-    //     wx.login({
-    //       success(res) {
-    //         wx.request({
-    //           url: utils.serviceUrl + '/wxck/login', // 仅为示例，并非真实的接口地址
-    //           header: {
-    //             'content-type': 'application/json' // 默认值
-    //           },
-    //           data: {
-    //             code: res.code
-    //           },
-    //           method: 'post',
-    //           success(res) {
-    //             console.log("用户登陆返回信息" + res.data)
-    //           }
-    //         })
-
-    //       }
-    //     })
-    //   }
-    // })
-
-
-    // wx.getSetting({
-    //   success(res) {
-    //     console.log(res);
-    //   }
-    // })
-
   },
   onShow:function(){
-    // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          //已授信
-        } else {
-          // 未授权，跳转到授权页面
-          wx.reLaunch({
-            url: '/pages/auth/auth',
-          })
-        }
-      }
-    })
   },
   globalData: {
     ColorList: [{

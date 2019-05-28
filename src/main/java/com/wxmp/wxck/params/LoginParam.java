@@ -14,8 +14,18 @@ import lombok.ToString;
 @ToString
 public class LoginParam {
 
-
     private String code;
 
+    private String errMsg;
+
+    private String rawData;
+
+    private UserInfoParam userInfo;
+
+    private String signature;
+
+    private String encryptedData;
+
+    private String iv;
 
 }

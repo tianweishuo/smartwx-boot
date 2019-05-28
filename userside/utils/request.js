@@ -12,10 +12,11 @@ function request(url,postData,doSuccess,doFail){
 		header:{
 			"content-type": "application/json;charset=UTF-8"
 		},
+    dataType:'json',
 		method:'POST',
 		dataType:true,
 		success:function(res){
-			doSuccess(res.data);
+      doSuccess(JSON.parse(res.data));
 		},
 		fail:function(){
 			doFail();

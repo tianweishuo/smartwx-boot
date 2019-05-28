@@ -4,7 +4,8 @@
     "pages/basics/home/home",
     "pages/basics/callcar/callcar",
     "pages/basics/errands/errands",
-    "pages/waitforcar/waitforcar"
+    "pages/waitforcar/waitforcar",
+    "pages/auth/auth"
   ],
   "window": {
     "navigationBarBackgroundColor": "#39b54a",
