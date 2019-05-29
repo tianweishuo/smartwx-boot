@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+=======
+// pages/waitforcar/waitforcar.js
+>>>>>>> origin/master
 Page({
 
   /**
@@ -29,17 +33,23 @@ Page({
     cxt.stroke();
     cxt.draw();
     //加载动画
-    var steps = 1, startAngle = 1.5 * Math.PI, endAngle = 0, speed = 100, sec = 100;
+    var steps = 1,
+      startAngle = 1.5 * Math.PI,
+      endAngle = 0,
+      speed = 100,
+      sec = 100;
+
     function drawing(s, e) {
       var context = wx.createCanvasContext('canvasRing');
       context.setLineWidth(6);
-      context.setStrokeStyle('#11be0f');
+      context.setStrokeStyle('#0b98e1');
       context.setLineCap('round');
       context.beginPath();
       context.arc(100, 100, 96, s, e, false);
       context.stroke();
       context.draw();
     }
+
     function drawLoading() {
       if (steps < 101) {
         //这里用me,同步数据,渲染页面
@@ -61,6 +71,7 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function() {
+
   },
 
   /**

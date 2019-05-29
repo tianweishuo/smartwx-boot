@@ -1,6 +1,5 @@
 //app.js
 var utils = require('/utils/util.js')
-var call = require('/utils/request.js')
 
 App({
   onLaunch: function() {
@@ -12,24 +11,9 @@ App({
         this.globalData.CustomBar = custom.bottom + custom.top - e.statusBarHeight;
       }
     })
+
+
     //校验登陆是否失效
-    wx.checkSession({
-      success() {
-        console.log("登陆有效");
-      },
-      fail() {
-        console.log("登陆失效,进行登陆");
-        wx.login({
-          success(res) {
-            call.request("/wxck/login", { code: res.code},function(data){
-              console.log("用户登陆返回信息" + data)
-            },function(){
-              console.log("失败");
-            })
-          }
-        })
-      }
-    })
     // wx.checkSession({
     //   success() {
     //     console.log("登陆有效");
@@ -66,19 +50,6 @@ App({
 
   },
   onShow:function(){
-    // 获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          //已授信
-        } else {
-          // 未授权，跳转到授权页面
-          wx.reLaunch({
-            url: '/pages/auth/auth',
-          })
-        }
-      }
-    })
   },
   globalData: {
     ColorList: [{

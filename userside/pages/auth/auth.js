@@ -7,7 +7,7 @@ Page({
     wx.getSetting({
       success: (res) => {
         if (res.authSetting['scope.userInfo']) {
-          wx.reLaunch({
+          wx.redirectTo({
             url: '/pages/index/index',
           })
         }

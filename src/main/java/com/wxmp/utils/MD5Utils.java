@@ -19,7 +19,7 @@ public class MD5Utils {
 
 	public static void main(String[] args) {
 		try {
-			String md5 = getMD5Str("imooc");
+			String md5 = getMD5Str("dd+Okf3VOeK\\/gk047lcUQw=="+"obJL15SCnDefgwnVhqPadoHLwhbw");
 			System.out.println(md5);
 		} catch (Exception e) {
 			e.printStackTrace();
