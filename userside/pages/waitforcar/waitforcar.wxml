@@ -1,0 +1,9 @@
+<cu-custom bgColor="bg-gradual-blue" isBack="{{false}}">
+  <view slot="content">正在派单</view>
+</cu-custom>
+<view class="loading-warp">
+    <canvas class="canvas" canvas-id="canvasCircle"></canvas>
+    <canvas class="canvas-mask" canvas-id="canvasRing"></canvas>
+    <view class="rate">{{step}}%</view>
+</view>
+<view class="loading-tips">{{tips}}</view>
