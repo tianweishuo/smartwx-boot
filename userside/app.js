@@ -10,47 +10,44 @@ App({
         this.globalData.Custom = custom;
         this.globalData.CustomBar = custom.bottom + custom.top - e.statusBarHeight;
       }
-    })
+    });
 
-
-    //校验登陆是否失效
-    // wx.checkSession({
-    //   success() {
-    //     console.log("登陆有效");
-    //   },
-    //   fail() {
-    //     console.log("登陆失效,进行登陆");
-    //     wx.login({
-    //       success(res) {
-    //         wx.request({
-    //           url: utils.serviceUrl + '/wxck/login', // 仅为示例，并非真实的接口地址
-    //           header: {
-    //             'content-type': 'application/json' // 默认值
-    //           },
-    //           data: {
-    //             code: res.code
-    //           },
-    //           method: 'post',
-    //           success(res) {
-    //             console.log("用户登陆返回信息" + res.data)
-    //           }
-    //         })
-
-    //       }
-    //     })
-    //   }
-    // })
-
-
-    // wx.getSetting({
-    //   success(res) {
-    //     console.log(res);
-    //   }
-    // })
-
+    //获取小程序更新机制兼容
+    if (wx.canIUse('getUpdateManager')) {
+      const updateManager = wx.getUpdateManager()
+      updateManager.onCheckForUpdate(function(res) {
+        // 请求完新版本信息的回调
+        if (res.hasUpdate) {
+          updateManager.onUpdateReady(function() {
+            wx.showModal({
+              title: '更新提示',
+              content: '新版本已经准备好，是否重启应用？',
+              success: function(res) {
+                if (res.confirm) {
+                  // 新的版本已经下载好，调用 applyUpdate 应用新版本并重启
+                  updateManager.applyUpdate()
+                }
+              }
+            })
+          })
+          updateManager.onUpdateFailed(function() {
+            // 新的版本下载失败
+            wx.showModal({
+              title: '已经有新版本了哟~',
+              content: '新版本已经上线啦~，请您删除当前小程序，重新搜索打开哟~',
+            })
+          })
+        }
+      })
+    } else {
+      // 如果希望用户在最新版本的客户端上体验您的小程序，可以这样子提示
+      wx.showModal({
+        title: '提示',
+        content: '当前微信版本过低，无法更好体验程序，请升级到最新微信版本后重试。'
+      })
+    }
   },
-  onShow:function(){
-  },
+  onShow: function() {},
   globalData: {
     ColorList: [{
         title: '嫣红',

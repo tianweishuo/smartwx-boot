@@ -1,61 +1,107 @@
-var call = require("../../utils/request.js");
-
 Page({
+
+  /**
+   * 页面的初始数据
+   */
   data: {
-    PageCur: 'basics'
+    cardCur: 0,
+    swiperList: [{
+      id: 0,
+      type: 'image',
+      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84000.jpg'
+    }, {
+      id: 1,
+      type: 'image',
+      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big84001.jpg',
+    }, {
+      id: 2,
+      type: 'image',
+      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big39000.jpg'
+    }, {
+      id: 3,
+      type: 'image',
+      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg'
+    }, {
+      id: 4,
+      type: 'image',
+      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big25011.jpg'
+    }, {
+      id: 5,
+      type: 'image',
+      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big21016.jpg'
+    }, {
+      id: 6,
+      type: 'image',
+      url: 'https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg'
+    }],
+    elements: [{
+      title: '叫车',
+      name: 'callcar',
+      color: 'cyan',
+      icon: 'car'
+    },
+    {
+      title: '跑腿儿',
+      name: 'errands',
+      color: 'blue',
+      icon: 'errands'
+    }
+    ]
   },
-  onShow: function() {
-    //获取用户信息
-    wx.getSetting({
-      success: res => {
-        if (res.authSetting['scope.userInfo']) {
-          //已授信,登陆
-          wx.checkSession({
-            success() {
-              console.log("登陆有效");
-              // wx.getUserInfo({
-              //   withCredentials: true,
-              //   success: function(res) {
-              //     console.log(JSON.stringify(res));
-              //     call.request("/wxck/login", res, function(res) {
-              //       console.log(res);
-              //     }, function() {
-              //       console.log("发送失败");
-              //     });
-              //   }
-              // })
-            },
-            fail() {
-              console.log("登陆失效,进行登陆");
-              wx.login({
-                success(res) {
-                  console.log(JSON.stringify(res));
-                  call.request("/wxck/getWxSession", {
-                      code: res.code
-                    },
-                    function(res) {
-                      console.log(res);
-                    },
-                    function() {
-                      console.log("服务器连接异常");
-                    });
-                // 
-                }
-              })
-            }
-          })
-        } else {
-          //未授权，跳转到授权页面
-          wx.navigateTo({
-            url: '/pages/auth/auth',
-          })
-        }
-      }
-    })
+
+  /**
+   * 生命周期函数--监听页面加载
+   */
+  onLoad: function (options) {
+    
   },
-  NavChange(e) {
-    this.setData({
-      PageCur: e.currentTarget.dataset.cur
-    })
+
+  /**
+   * 生命周期函数--监听页面初次渲染完成
+   */
+  onReady: function () {
+    
+  },
+
+  /**
+   * 生命周期函数--监听页面显示
+   */
+  onShow: function () {
+    
+  },
+
+  /**
+   * 生命周期函数--监听页面隐藏
+   */
+  onHide: function () {
+    
+  },
+
+  /**
+   * 生命周期函数--监听页面卸载
+   */
+  onUnload: function () {
+    
+  },
+
+  /**
+   * 页面相关事件处理函数--监听用户下拉动作
+   */
+  onPullDownRefresh: function () {
+    
+  },
+
+  /**
+   * 页面上拉触底事件的处理函数
+   */
+  onReachBottom: function () {
+    
+  },
+
+  /**
+   * 用户点击右上角分享
+   */
+  onShareAppMessage: function () {
+    
   }
 })

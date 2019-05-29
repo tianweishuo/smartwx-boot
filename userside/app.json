@@ -1,17 +1,38 @@
 {
   "pages": [
     "pages/index/index",
-    "pages/basics/home/home",
-    "pages/basics/callcar/callcar",
+    "pages/ucenter/index/index",
+    "pages/auth/auth",
+    "pages/basics",
     "pages/basics/errands/errands",
-    "pages/waitforcar/waitforcar",
-    "pages/auth/auth"
+    "pages/waitforcar/waitforcar"
   ],
   "window": {
-    "navigationBarBackgroundColor": "#39b54a",
-    "navigationBarTitleText": "Color UI",
-    "navigationStyle": "custom",
-    "navigationBarTextStyle": "white"
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "云打车",
+    "navigationBarBackgroundColor": "#fff",
+    "backgroundColor": "#f8f8f8",
+    "enablePullDownRefresh": false
+  },
+  "tabBar": {
+    "color": "#8a8a8a",
+    "selectedColor": "#ef6769",
+    "borderStyle": "white",
+    "backgroundColor": "#f8f9fb",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "iconPath": "static/images/ic_menu_choice_nor.png",
+        "selectedIconPath": "static/images/ic_menu_choice_pressed.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/ucenter/index/index",
+        "iconPath": "static/images/ic_menu_me_nor.png",
+        "selectedIconPath": "static/images/ic_menu_me_pressed.png",
+        "text": "我的"
+      }
+    ]
   },
   "usingComponents": {
     "cu-custom": "/colorui/components/cu-custom"

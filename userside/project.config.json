@@ -4,7 +4,7 @@
 		"ignore": []
 	},
 	"setting": {
-		"urlCheck": true,
+		"urlCheck": false,
 		"es6": true,
 		"postcss": true,
 		"minified": true,
@@ -62,8 +62,8 @@
 				},
 				{
 					"id": -1,
-					"name": "4.6 动画",
-					"pathName": "pages/waitforcar/waitforcar",
+					"name": "4.6 登陆",
+					"pathName": "pages/auth/auth",
 					"query": ""
 				}
 			]
