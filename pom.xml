@@ -37,7 +37,7 @@
 		<zxing.version>2.2</zxing.version>
 		<aspectj.version>1.7.4</aspectj.version>
 		<nl.version>1.2.4</nl.version>
-		<mysql.driver.version>5.1.46</mysql.driver.version>
+		<mysql.driver.version>8.0.16</mysql.driver.version>
 		<springfox-swagger2.version>2.7.0</springfox-swagger2.version>
 		<configuration.version>1.7</configuration.version>
 		<ijapy.version>1.1.4</ijapy.version>
