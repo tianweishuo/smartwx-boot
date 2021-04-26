@@ -20,7 +20,7 @@
 	<properties>
 		<apache.commons.lang3>3.3.2</apache.commons.lang3>
 		<apache.commons.beanutils>1.9.2</apache.commons.beanutils>
-		<apache.io>2.4</apache.io>
+		<apache.io>2.7</apache.io>
 		<commons.file>1.3.1</commons.file>
 		<lastVersion>1.9.1</lastVersion>
 		<smartwx-boot.version>2.0</smartwx-boot.version>
