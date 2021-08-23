@@ -43,7 +43,7 @@
 		<ijapy.version>1.1.4</ijapy.version>
 		<alipay.version>3.0.52.ALL</alipay.version>
 		<javax.mail.version>1.6.1</javax.mail.version>
-		<jsoup.version>1.11.2</jsoup.version>
+		<jsoup.version>1.14.2</jsoup.version>
 		<!-- environment setting -->
 		<jdk.version>1.8</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
